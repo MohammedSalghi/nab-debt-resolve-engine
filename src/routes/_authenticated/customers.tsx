@@ -248,6 +248,47 @@ function CustomersPage() {
 
 function CustomerForm({ open, onClose, onSubmit, existing }: { open: boolean; onClose: () => void; onSubmit: (d: any) => void; existing?: Customer | null }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [lookupId, setLookupId] = useState("");
+  const [lookupState, setLookupState] = useState<"idle" | "loading" | "ok" | "err">("idle");
+  const [lookupErr, setLookupErr] = useState("");
+  const [bank, setBank] = useState<BankCustomer | null>(null);
+  const [prefill, setPrefill] = useState<Partial<Customer> | null>(null);
+
+  const runLookup = async () => {
+    const id = lookupId.trim();
+    if (!/^\d{8,14}$/.test(id)) {
+      setLookupState("err");
+      setLookupErr("الرقم الوطني يجب أن يكون 8-14 رقماً");
+      return;
+    }
+    setLookupState("loading");
+    setLookupErr("");
+    try {
+      const data = await fetchBankCustomer(id);
+      setBank(data);
+      setPrefill({
+        name: data.customer.name,
+        type: data.customer.type,
+        branch: data.customer.branch,
+        nationalId: data.customer.nationalId,
+        phone: data.customer.phone,
+      });
+      setLookupState("ok");
+      toast.success(`تم جلب بيانات ${data.customer.name} من النظام البنكي`);
+    } catch (e: any) {
+      setLookupState("err");
+      setLookupErr(e?.message || "تعذر الاتصال بالنظام البنكي");
+    }
+  };
+
+  const reset = () => {
+    setErrors({});
+    setLookupId("");
+    setLookupState("idle");
+    setLookupErr("");
+    setBank(null);
+    setPrefill(null);
+  };
 
   const handle = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -255,7 +296,7 @@ function CustomerForm({ open, onClose, onSubmit, existing }: { open: boolean; on
     const data = Object.fromEntries(fd.entries()) as Record<string, string>;
     const errs: Record<string, string> = {};
     if (!data.name) errs.name = "الاسم مطلوب";
-    if (!/^\d{12}$/.test(data.nationalId)) errs.nationalId = "الرقم الوطني يجب أن يكون 12 رقماً";
+    if (!/^\d{8,14}$/.test(data.nationalId)) errs.nationalId = "الرقم الوطني يجب أن يكون 8-14 رقماً";
     if (!/^09\d{8}$/.test(data.phone)) errs.phone = "رقم الهاتف بصيغة 09xxxxxxxx";
     setErrors(errs);
     if (Object.keys(errs).length) {
@@ -263,46 +304,122 @@ function CustomerForm({ open, onClose, onSubmit, existing }: { open: boolean; on
       return;
     }
     onSubmit({ name: data.name, type: data.type as "فرد" | "شركة", branch: data.branch, nationalId: data.nationalId, phone: data.phone });
+    reset();
   };
 
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent dir="rtl">
+    <Dialog open={open} onOpenChange={(o) => { if (!o) { reset(); onClose(); } }}>
+      <DialogContent dir="rtl" className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{existing ? "تعديل بيانات العميل" : "إضافة عميل جديد"}</DialogTitle>
-          <DialogDescription>أدخل بيانات العميل بشكل كامل</DialogDescription>
+          <DialogDescription>أدخل بيانات العميل يدوياً أو استعلم من النظام البنكي المركزي</DialogDescription>
         </DialogHeader>
+
+        {!existing && (
+          <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-semibold">
+              <Building2 className="size-4 text-primary" />
+              استعلام من النظام البنكي المركزي (CBS)
+            </div>
+            <div className="flex gap-2">
+              <input
+                value={lookupId}
+                onChange={(e) => setLookupId(e.target.value.replace(/\D/g, ""))}
+                placeholder="أدخل الرقم الوطني للعميل..."
+                className="flex-1 px-3 py-2 rounded-md border border-border bg-background text-sm font-mono"
+                lang="en"
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); runLookup(); } }}
+              />
+              <Button type="button" onClick={runLookup} disabled={lookupState === "loading"} className="gap-1.5">
+                {lookupState === "loading" ? <Loader2 className="size-3.5 animate-spin" /> : <Search className="size-3.5" />}
+                استعلام
+              </Button>
+            </div>
+            {lookupState === "err" && (
+              <div className="flex items-center gap-2 text-xs text-destructive">
+                <AlertTriangle className="size-3.5" /> {lookupErr}
+              </div>
+            )}
+            {lookupState === "ok" && bank && (
+              <div className="rounded-md border border-risk-good/30 bg-risk-good/5 p-3 space-y-2 text-xs">
+                <div className="flex items-center gap-2 text-risk-good font-semibold">
+                  <CheckCircle2 className="size-4" /> تم العثور على العميل في النظام
+                </div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-foreground">
+                  <Info l="الاسم" v={bank.customer.name} />
+                  <Info l="النوع" v={bank.customer.type} />
+                  <Info l="الفرع" v={bank.customer.branch} />
+                  <Info l="حالة KYC" v={bank.customer.kycStatus} />
+                  <Info l="المهنة" v={bank.customer.occupation} />
+                  <Info l="جهة العمل" v={bank.customer.employer} />
+                  <Info l="الدخل الشهري" v={fmtCurrency(bank.customer.monthlyIncome)} mono />
+                  <Info l="تصنيف SIMAH" v={`${bank.creditProfile.bureauScore} (${bank.creditProfile.bureauGrade})`} mono />
+                  <Info l="المديونية الحالية" v={fmtCurrency(bank.creditProfile.existingDebt)} mono />
+                  <Info l="القروض النشطة" v={String(bank.creditProfile.activeLoans)} mono />
+                  <Info l="DTI" v={`${(bank.creditProfile.dti * 100).toFixed(0)}%`} mono />
+                  <Info l="عدد الحسابات" v={String(bank.accounts.length)} mono />
+                </div>
+                {(bank.flags.sanctionsHit || bank.flags.pep || bank.flags.blacklist) && (
+                  <div className="flex items-center gap-2 text-[11px] text-destructive font-semibold pt-1 border-t border-border">
+                    <AlertTriangle className="size-3.5" />
+                    تنبيه:
+                    {bank.flags.sanctionsHit && <span className="px-1.5 py-0.5 rounded bg-destructive/10">عقوبات</span>}
+                    {bank.flags.pep && <span className="px-1.5 py-0.5 rounded bg-destructive/10">شخصية معرضة</span>}
+                    {bank.flags.blacklist && <span className="px-1.5 py-0.5 rounded bg-destructive/10">قائمة سوداء</span>}
+                  </div>
+                )}
+                <div className="text-[10px] text-muted-foreground pt-1 border-t border-border" lang="en">
+                  Source: {bank.source} · {new Date(bank.fetchedAt).toLocaleString("ar-LY")}
+                </div>
+              </div>
+            )}
+            <div className="text-[10px] text-muted-foreground">
+              جرب: <span className="font-mono" lang="en">123456789012</span> أو أي رقم مكوّن من 8-14 رقماً ·
+              الأرقام المنتهية بـ <span className="font-mono" lang="en">0000</span> تعيد "غير موجود"
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handle} className="space-y-3">
           <Field label="الاسم الكامل" error={errors.name}>
-            <input name="name" defaultValue={existing?.name} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm" />
+            <input name="name" defaultValue={prefill?.name ?? existing?.name} key={`n-${prefill?.name ?? ""}`} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm" />
           </Field>
           <div className="grid grid-cols-2 gap-3">
             <Field label="النوع">
-              <select name="type" defaultValue={existing?.type ?? "فرد"} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm">
+              <select name="type" defaultValue={prefill?.type ?? existing?.type ?? "فرد"} key={`t-${prefill?.type ?? ""}`} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm">
                 <option>فرد</option><option>شركة</option>
               </select>
             </Field>
             <Field label="الفرع">
-              <select name="branch" defaultValue={existing?.branch ?? LIBYAN_BRANCHES[0]} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm">
+              <select name="branch" defaultValue={prefill?.branch ?? existing?.branch ?? LIBYAN_BRANCHES[0]} key={`b-${prefill?.branch ?? ""}`} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm">
                 {LIBYAN_BRANCHES.map((b) => <option key={b}>{b}</option>)}
               </select>
             </Field>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <Field label="الرقم الوطني" error={errors.nationalId}>
-              <input name="nationalId" defaultValue={existing?.nationalId} maxLength={12} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm font-mono" placeholder="123456789012" />
+              <input name="nationalId" defaultValue={prefill?.nationalId ?? existing?.nationalId} key={`ni-${prefill?.nationalId ?? ""}`} maxLength={14} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm font-mono" placeholder="123456789012" />
             </Field>
             <Field label="رقم الهاتف" error={errors.phone}>
-              <input name="phone" defaultValue={existing?.phone} maxLength={10} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm font-mono" placeholder="0912345678" />
+              <input name="phone" defaultValue={prefill?.phone ?? existing?.phone} key={`p-${prefill?.phone ?? ""}`} maxLength={10} className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm font-mono" placeholder="0912345678" />
             </Field>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>إلغاء</Button>
+            <Button type="button" variant="outline" onClick={() => { reset(); onClose(); }}>إلغاء</Button>
             <Button type="submit">حفظ</Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function Info({ l, v, mono }: { l: string; v: string; mono?: boolean }) {
+  return (
+    <div className="flex justify-between gap-2">
+      <span className="text-muted-foreground">{l}:</span>
+      <span className={cn("font-medium text-right", mono && "font-mono tabular")} lang={mono ? "en" : undefined}>{v}</span>
+    </div>
   );
 }
 
