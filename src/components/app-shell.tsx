@@ -43,6 +43,7 @@ const navGroups = [
     items: [
       { to: "/dashboard", icon: LayoutDashboard, label: "لوحة التحكم التنفيذية" },
       { to: "/analytics", icon: Activity, label: "التحليلات المتقدمة" },
+    ],
   },
   {
     label: "العملاء والائتمان",
