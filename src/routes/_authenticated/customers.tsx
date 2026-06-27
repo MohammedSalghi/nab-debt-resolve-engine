@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, Download, Filter, Plus, Printer, Pencil, Trash2, Scale } from "lucide-react";
+import { ArrowDown, ArrowUp, Download, Filter, Plus, Printer, Pencil, Trash2, Scale, Search, Loader2, CheckCircle2, AlertTriangle, Building2 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, Card, PageHeader, RiskBadge } from "@/components/app-shell";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -14,6 +14,7 @@ import { dpdToBucket, LIBYAN_BRANCHES, riskLabels } from "@/lib/mock-data";
 import { fmtCurrency, fmtDPD, fmtInt } from "@/lib/format";
 import { downloadCSV } from "@/lib/export-utils";
 import { cn } from "@/lib/utils";
+import { fetchBankCustomer, type BankCustomer } from "@/lib/api/core-banking";
 
 export const Route = createFileRoute("/_authenticated/customers")({
   head: () => ({ meta: [{ title: "إدارة العملاء — نظام الائتمان البنكي" }] }),
