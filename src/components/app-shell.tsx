@@ -42,7 +42,7 @@ const navGroups = [
     label: "نظرة عامة",
     items: [
       { to: "/dashboard", icon: LayoutDashboard, label: "لوحة التحكم التنفيذية" },
-    ],
+      { to: "/analytics", icon: Activity, label: "التحليلات المتقدمة" },
   },
   {
     label: "العملاء والائتمان",
