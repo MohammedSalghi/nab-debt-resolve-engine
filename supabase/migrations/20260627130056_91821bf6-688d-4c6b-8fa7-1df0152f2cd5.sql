@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS set_profiles_updated_at ON public.profiles;
