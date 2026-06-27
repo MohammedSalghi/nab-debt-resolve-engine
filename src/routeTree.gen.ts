@@ -23,8 +23,10 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
 import { Route as AuthenticatedCollectionsRouteImport } from './routes/_authenticated/collections'
 import { Route as AuthenticatedCollateralRouteImport } from './routes/_authenticated/collateral'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAgingRouteImport } from './routes/_authenticated/aging'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicCoreBankingCustomerNationalIdRouteImport } from './routes/api/public/core-banking/customer.$nationalId'
 
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
@@ -98,6 +100,11 @@ const AuthenticatedCollateralRoute = AuthenticatedCollateralRouteImport.update({
   path: '/collateral',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAgingRoute = AuthenticatedAgingRouteImport.update({
   id: '/aging',
   path: '/aging',
@@ -108,6 +115,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicCoreBankingCustomerNationalIdRoute =
+  ApiPublicCoreBankingCustomerNationalIdRouteImport.update({
+    id: '/api/public/core-banking/customer/$nationalId',
+    path: '/api/public/core-banking/customer/$nationalId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -115,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/aging': typeof AuthenticatedAgingRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/collateral': typeof AuthenticatedCollateralRoute
   '/collections': typeof AuthenticatedCollectionsRoute
   '/customers': typeof AuthenticatedCustomersRoute
@@ -125,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/risk': typeof AuthenticatedRiskRoute
+  '/api/public/core-banking/customer/$nationalId': typeof ApiPublicCoreBankingCustomerNationalIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,6 +147,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/aging': typeof AuthenticatedAgingRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/collateral': typeof AuthenticatedCollateralRoute
   '/collections': typeof AuthenticatedCollectionsRoute
   '/customers': typeof AuthenticatedCustomersRoute
@@ -142,6 +158,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/risk': typeof AuthenticatedRiskRoute
+  '/api/public/core-banking/customer/$nationalId': typeof ApiPublicCoreBankingCustomerNationalIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -151,6 +168,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/aging': typeof AuthenticatedAgingRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/collateral': typeof AuthenticatedCollateralRoute
   '/_authenticated/collections': typeof AuthenticatedCollectionsRoute
   '/_authenticated/customers': typeof AuthenticatedCustomersRoute
@@ -161,6 +179,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/risk': typeof AuthenticatedRiskRoute
+  '/api/public/core-banking/customer/$nationalId': typeof ApiPublicCoreBankingCustomerNationalIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -170,6 +189,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/admin'
     | '/aging'
+    | '/analytics'
     | '/collateral'
     | '/collections'
     | '/customers'
@@ -180,6 +200,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/reports'
     | '/risk'
+    | '/api/public/core-banking/customer/$nationalId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -187,6 +208,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/admin'
     | '/aging'
+    | '/analytics'
     | '/collateral'
     | '/collections'
     | '/customers'
@@ -197,6 +219,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/reports'
     | '/risk'
+    | '/api/public/core-banking/customer/$nationalId'
   id:
     | '__root__'
     | '/'
@@ -205,6 +228,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/_authenticated/admin'
     | '/_authenticated/aging'
+    | '/_authenticated/analytics'
     | '/_authenticated/collateral'
     | '/_authenticated/collections'
     | '/_authenticated/customers'
@@ -215,6 +239,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/reports'
     | '/_authenticated/risk'
+    | '/api/public/core-banking/customer/$nationalId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -222,6 +247,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   OnboardingRoute: typeof OnboardingRoute
+  ApiPublicCoreBankingCustomerNationalIdRoute: typeof ApiPublicCoreBankingCustomerNationalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -324,6 +350,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCollateralRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/aging': {
       id: '/_authenticated/aging'
       path: '/aging'
@@ -338,12 +371,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/core-banking/customer/$nationalId': {
+      id: '/api/public/core-banking/customer/$nationalId'
+      path: '/api/public/core-banking/customer/$nationalId'
+      fullPath: '/api/public/core-banking/customer/$nationalId'
+      preLoaderRoute: typeof ApiPublicCoreBankingCustomerNationalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAgingRoute: typeof AuthenticatedAgingRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedCollateralRoute: typeof AuthenticatedCollateralRoute
   AuthenticatedCollectionsRoute: typeof AuthenticatedCollectionsRoute
   AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
@@ -359,6 +400,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAgingRoute: AuthenticatedAgingRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedCollateralRoute: AuthenticatedCollateralRoute,
   AuthenticatedCollectionsRoute: AuthenticatedCollectionsRoute,
   AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
@@ -379,17 +421,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   OnboardingRoute: OnboardingRoute,
+  ApiPublicCoreBankingCustomerNationalIdRoute:
+    ApiPublicCoreBankingCustomerNationalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

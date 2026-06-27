@@ -2,6 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
+  Activity,
   Users,
   Wallet,
   Gauge,
@@ -42,6 +43,7 @@ const navGroups = [
     label: "نظرة عامة",
     items: [
       { to: "/dashboard", icon: LayoutDashboard, label: "لوحة التحكم التنفيذية" },
+      { to: "/analytics", icon: Activity, label: "التحليلات المتقدمة" },
     ],
   },
   {
