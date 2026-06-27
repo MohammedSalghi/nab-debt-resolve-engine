@@ -304,7 +304,7 @@ function AnalyticsPage() {
                 <div key={c.name} className="flex items-center gap-2 text-xs p-2 rounded-md hover:bg-accent/40">
                   <span className="size-6 rounded-md bg-muted flex items-center justify-center font-mono text-[11px]" lang="en">{i + 1}</span>
                   <span className="flex-1 truncate">{c.name}</span>
-                  <RiskBadge level={c.risk} />
+                  <RiskBadge risk={c.risk} label={riskLabels[c.risk]} />
                   <span className="font-mono w-20 text-left text-muted-foreground" lang="en">{c.pct.toFixed(1)}%</span>
                   <span className="font-mono w-28 text-left font-medium" lang="en">{fmtCurrency(c.debt)}</span>
                 </div>
