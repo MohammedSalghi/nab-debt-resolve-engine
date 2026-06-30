@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth, type AppRole } from "@/lib/auth";
 import nabLogo from "@/assets/nab-logo.png.asset.json";
+import ebtekarLogo from "@/assets/ebtekar-raqmi-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -212,13 +213,13 @@ function AuthPage() {
           <div className="absolute bottom-10 left-10 size-72 rounded-full bg-[oklch(0.55_0.18_256)] blur-3xl animate-pulse" style={{ animationDuration: "8s" }} />
         </div>
         <div className="relative">
-          <div className="flex items-center gap-3">
-            <div className="size-12 rounded-lg bg-white ring-1 ring-primary-foreground/20 flex items-center justify-center p-1 shrink-0">
+          <div className="flex items-center gap-4">
+            <div className="size-20 rounded-2xl bg-white ring-1 ring-primary-foreground/20 flex items-center justify-center p-2 shrink-0 shadow-lg">
               <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
             </div>
             <div className="leading-tight">
-              <div className="font-bold text-base">مصرف شمال أفريقيا</div>
-              <div className="text-[10px] font-mono text-primary-foreground/60">
+              <div className="font-bold text-xl">مصرف شمال أفريقيا</div>
+              <div className="text-[11px] font-mono text-primary-foreground/60 mt-1">
                 NAB · CREDIT CORE
               </div>
             </div>
@@ -260,11 +261,11 @@ function AuthPage() {
       {/* Right form panel */}
       <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-md">
-          <div className="lg:hidden flex items-center gap-3 mb-8">
-            <img src={nabLogo.url} alt="NAB" className="size-10 rounded-md bg-white p-0.5 object-contain" />
+          <div className="lg:hidden flex flex-col items-center text-center gap-3 mb-8">
+            <img src={nabLogo.url} alt="NAB" className="size-20 rounded-xl bg-white p-1.5 object-contain ring-1 ring-border shadow-sm" />
             <div className="leading-tight">
-              <div className="font-bold text-sm">مصرف شمال أفريقيا</div>
-              <div className="text-[10px] font-mono text-muted-foreground">NAB · CREDIT CORE</div>
+              <div className="font-bold text-base">مصرف شمال أفريقيا</div>
+              <div className="text-[10px] font-mono text-muted-foreground mt-0.5">NAB · CREDIT CORE</div>
             </div>
           </div>
 
@@ -439,6 +440,12 @@ function AuthPage() {
             بدخولك إلى المنصة فإنك توافق على{" "}
             <Link to="/" className="underline">شروط الاستخدام</Link> وسياسة الخصوصية.
           </p>
+
+          <div className="mt-8 pt-5 border-t border-border/60 flex items-center justify-center gap-2 text-[10px] text-muted-foreground">
+            <span>Powered by</span>
+            <img src={ebtekarLogo.url} alt="Ebtekar Raqmi" className="h-5 w-auto object-contain" />
+            <span className="font-semibold text-foreground/80">Ebtekar Raqmi Co.</span>
+          </div>
         </div>
       </div>
     </div>
