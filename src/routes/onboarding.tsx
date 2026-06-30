@@ -22,6 +22,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, type AppRole } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import nabLogo from "@/assets/nab-logo.png.asset.json";
+import ebtekarLogo from "@/assets/ebtekar-raqmi-logo.png.asset.json";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -213,14 +215,14 @@ function OnboardingPage() {
       />
 
       {/* Header */}
-      <header className="h-16 px-6 border-b border-border/60 bg-card/40 backdrop-blur-xl flex items-center justify-between relative z-10">
-        <div className="flex items-center gap-3">
-          <div className="size-9 rounded-md flex items-center justify-center font-bold text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
-            ج
+      <header className="px-6 py-4 border-b border-border/60 bg-card/40 backdrop-blur-xl flex items-center justify-between relative z-10">
+        <div className="flex items-center gap-4">
+          <div className="size-14 rounded-xl bg-white ring-1 ring-border flex items-center justify-center p-1.5 shadow-sm shrink-0">
+            <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
           </div>
           <div className="leading-tight">
-            <div className="font-bold text-sm">نظام إدارة المخاطر والائتمان البنكي</div>
-            <div className="text-[10px] font-mono text-muted-foreground">LIBYAN CREDIT CORE · إعداد أوّلي</div>
+            <div className="font-bold text-base">مصرف شمال أفريقيا</div>
+            <div className="text-[10px] font-mono text-muted-foreground mt-0.5">NAB · CREDIT CORE · إعداد أوّلي</div>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -498,8 +500,13 @@ function OnboardingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="px-6 py-3 border-t border-border/60 bg-card/40 backdrop-blur text-center text-[10px] text-muted-foreground font-mono relative z-10">
-        © {new Date().getFullYear()} نظام إدارة المخاطر والائتمان البنكي · جميع الحقوق محفوظة
+      <footer className="px-6 py-4 border-t border-border/60 bg-card/40 backdrop-blur relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-muted-foreground font-mono">
+        <div>© {new Date().getFullYear()} مصرف شمال أفريقيا · جميع الحقوق محفوظة</div>
+        <div className="flex items-center gap-2">
+          <span>Powered by</span>
+          <img src={ebtekarLogo.url} alt="Ebtekar Raqmi" className="h-5 w-auto object-contain" />
+          <span className="font-semibold text-foreground/80">Ebtekar Raqmi Co.</span>
+        </div>
       </footer>
     </div>
   );
