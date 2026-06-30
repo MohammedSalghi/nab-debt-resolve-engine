@@ -5,6 +5,7 @@ import { Loader2, Eye, EyeOff, Shield, Lock, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth, type AppRole } from "@/lib/auth";
+import nabLogo from "@/assets/nab-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -212,13 +213,13 @@ function AuthPage() {
         </div>
         <div className="relative">
           <div className="flex items-center gap-3">
-            <div className="size-11 rounded-lg bg-primary-foreground/10 ring-1 ring-primary-foreground/20 flex items-center justify-center font-bold text-lg">
-              ج
+            <div className="size-12 rounded-lg bg-white ring-1 ring-primary-foreground/20 flex items-center justify-center p-1 shrink-0">
+              <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
             </div>
             <div className="leading-tight">
-              <div className="font-bold text-base">نظام الائتمان البنكي</div>
+              <div className="font-bold text-base">مصرف شمال أفريقيا</div>
               <div className="text-[10px] font-mono text-primary-foreground/60">
-                CREDIT CORE · v1.0
+                NAB · CREDIT CORE
               </div>
             </div>
           </div>
@@ -260,12 +261,10 @@ function AuthPage() {
       <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="size-10 rounded-md bg-primary text-primary-foreground flex items-center justify-center font-bold">
-              ج
-            </div>
+            <img src={nabLogo.url} alt="NAB" className="size-10 rounded-md bg-white p-0.5 object-contain" />
             <div className="leading-tight">
-              <div className="font-bold text-sm">نظام الائتمان البنكي</div>
-              <div className="text-[10px] font-mono text-muted-foreground">CREDIT CORE</div>
+              <div className="font-bold text-sm">مصرف شمال أفريقيا</div>
+              <div className="text-[10px] font-mono text-muted-foreground">NAB · CREDIT CORE</div>
             </div>
           </div>
 
