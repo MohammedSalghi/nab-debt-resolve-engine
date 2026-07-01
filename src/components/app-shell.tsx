@@ -124,7 +124,9 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div dir="rtl" className="flex min-h-screen bg-background text-foreground">
       <aside className={cn("fixed inset-y-0 right-0 border-l border-sidebar-border bg-sidebar flex flex-col z-20 transition-all duration-200", sidebarW)}>
         <div className="h-16 flex items-center gap-3 px-4 border-b border-sidebar-border">
-          <img src={nabLogo.url} alt="NAB" className="size-9 rounded-md object-contain bg-white p-0.5 shrink-0" />
+          <div className="size-14 rounded-xl bg-white ring-1 ring-sidebar-border flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+            <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
+          </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight overflow-hidden">
               <span className="font-bold text-sm tracking-tight text-sidebar-foreground whitespace-nowrap">مصرف شمال أفريقيا</span>
