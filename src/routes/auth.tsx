@@ -442,11 +442,11 @@ function AuthPage() {
           </p>
 
           <div className="mt-8 pt-5 border-t border-border/60 flex items-center justify-center gap-2.5 text-[11px] text-muted-foreground">
+            <span className="font-semibold text-foreground/80">Ebtekar Raqmi Co.</span>
+            <span>Powered by</span>
             <div className="h-6 w-6 rounded-full bg-white ring-1 ring-border/40 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
               <img src={ebtekarLogo.url} alt="Ebtekar Raqmi" className="h-full w-full object-contain" />
             </div>
-            <span>Powered by</span>
-            <span className="font-semibold text-foreground/80">Ebtekar Raqmi Co.</span>
           </div>
         </div>
       </div>
