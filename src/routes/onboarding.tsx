@@ -503,10 +503,10 @@ function OnboardingPage() {
       <footer className="px-6 py-4 border-t border-border/60 bg-card/40 backdrop-blur relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-muted-foreground font-mono">
         <div>© {new Date().getFullYear()} مصرف شمال أفريقيا · جميع الحقوق محفوظة</div>
         <div className="flex items-center gap-2.5">
-          <span>Powered by</span>
           <div className="h-6 w-6 rounded-full bg-white ring-1 ring-border/40 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
             <img src={ebtekarLogo.url} alt="Ebtekar Raqmi" className="h-full w-full object-contain" />
           </div>
+          <span>Powered by</span>
           <span className="font-semibold text-foreground/80">Ebtekar Raqmi Co.</span>
         </div>
       </footer>
