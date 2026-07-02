@@ -23,7 +23,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth, type AppRole } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import nabLogo from "@/assets/nab-logo.png.asset.json";
-import ebtekarLogo from "@/assets/ebtekar-raqmi-logo.png.asset.json";
+import ebtekarLogo from "@/assets/ebtekar-raqmi-logo.png";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -506,7 +506,7 @@ function OnboardingPage() {
           <span className="font-semibold text-foreground/80">Ebtekar Raqmi Co.</span>
           <span>Powered by</span>
           <div className="h-6 w-6 rounded-full bg-white ring-1 ring-border/40 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-            <img src={ebtekarLogo.url} alt="Ebtekar Raqmi" className="h-full w-full object-contain" />
+            <img src={ebtekarLogo} alt="Ebtekar Raqmi" className="h-full w-full object-contain" />
           </div>
         </div>
       </footer>
