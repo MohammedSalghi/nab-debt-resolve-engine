@@ -22,7 +22,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, type AppRole } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import nabLogo from "@/assets/nab-logo.png.asset.json";
+import nabLogo from "@/assets/nab-logo.png";
 import ebtekarLogo from "@/assets/ebtekar-raqmi-logo.png";
 
 export const Route = createFileRoute("/onboarding")({
@@ -218,7 +218,7 @@ function OnboardingPage() {
       <header className="px-6 py-4 border-b border-border/60 bg-card/40 backdrop-blur-xl flex items-center justify-between relative z-10">
         <div className="flex items-center gap-4">
           <div className="size-14 rounded-xl bg-white ring-1 ring-border flex items-center justify-center p-1.5 shadow-sm shrink-0">
-            <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
+            <img src={nabLogo} alt="NAB" className="size-full object-contain" />
           </div>
           <div className="leading-tight">
             <div className="font-bold text-base">مصرف شمال أفريقيا</div>

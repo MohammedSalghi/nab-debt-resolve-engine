@@ -5,7 +5,7 @@ import { Loader2, Eye, EyeOff, Shield, Lock, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { useAuth, type AppRole } from "@/lib/auth";
-import nabLogo from "@/assets/nab-logo.png.asset.json";
+import nabLogo from "@/assets/nab-logo.png";
 import ebtekarLogo from "@/assets/ebtekar-raqmi-logo.png";
 
 export const Route = createFileRoute("/auth")({
@@ -215,7 +215,7 @@ function AuthPage() {
         <div className="relative">
           <div className="flex items-center gap-4">
             <div className="size-20 rounded-2xl bg-white ring-1 ring-primary-foreground/20 flex items-center justify-center p-2 shrink-0 shadow-lg">
-              <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
+              <img src={nabLogo} alt="NAB" className="size-full object-contain" />
             </div>
             <div className="leading-tight">
               <div className="font-bold text-xl">مصرف شمال أفريقيا</div>
@@ -262,7 +262,7 @@ function AuthPage() {
       <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex flex-col items-center text-center gap-3 mb-8">
-            <img src={nabLogo.url} alt="NAB" className="size-20 rounded-xl bg-white p-1.5 object-contain ring-1 ring-border shadow-sm" />
+            <img src={nabLogo} alt="NAB" className="size-20 rounded-xl bg-white p-1.5 object-contain ring-1 ring-border shadow-sm" />
             <div className="leading-tight">
               <div className="font-bold text-base">مصرف شمال أفريقيا</div>
               <div className="text-[10px] font-mono text-muted-foreground mt-0.5">NAB · CREDIT CORE</div>

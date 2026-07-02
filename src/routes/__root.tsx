@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import nabLogo from "@/assets/nab-logo.png";
 import { AuthProvider } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -93,8 +94,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", type: "image/png", href: "/__l5e/assets-v1/3f348059-d6e0-49b3-8b62-64639ae1e671/nab-logo.png" },
-      { rel: "apple-touch-icon", href: "/__l5e/assets-v1/3f348059-d6e0-49b3-8b62-64639ae1e671/nab-logo.png" },
+      { rel: "icon", type: "image/png", href: nabLogo },
+      { rel: "apple-touch-icon", href: nabLogo },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

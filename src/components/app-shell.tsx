@@ -23,7 +23,7 @@ import {
   User as UserIcon,
   KeyRound,
 } from "lucide-react";
-import nabLogo from "@/assets/nab-logo.png.asset.json";
+import nabLogo from "@/assets/nab-logo.png";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -125,7 +125,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <aside className={cn("fixed inset-y-0 right-0 border-l border-sidebar-border bg-sidebar flex flex-col z-20 transition-all duration-200", sidebarW)}>
         <div className="h-16 flex items-center gap-3 px-4 border-b border-sidebar-border">
           <div className="size-14 rounded-xl bg-white ring-1 ring-sidebar-border flex items-center justify-center p-1.5 shrink-0 shadow-sm">
-            <img src={nabLogo.url} alt="NAB" className="size-full object-contain" />
+            <img src={nabLogo} alt="NAB" className="size-full object-contain" />
           </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight overflow-hidden">
