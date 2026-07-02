@@ -1,5 +1,13 @@
+# Netlify build configuration for TanStack Start (Nitro `netlify` preset).
+# Nitro emits:
+#   - static assets → dist/
+#   - SSR handler   → .netlify/functions-internal/server.mjs (+ redirect rules)
+# We only need to point Netlify at the build command, publish dir, and runtimes.
+
 [build]
-  command = "npm run build"
+  command = "bun run build"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22"
+  BUN_VERSION = "1.2.0"
