@@ -2,12 +2,12 @@
 # Nitro emits:
 #   - static assets → dist/
 #   - SSR handler   → .netlify/functions-internal/server.mjs (+ redirect rules)
-# We only need to point Netlify at the build command, publish dir, and Node version.
+# We only need to point Netlify at the build command, publish dir, and runtimes.
 
 [build]
-  command = "npm run build"
+  command = "bun run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22"
-  NPM_FLAGS = "--legacy-peer-deps"
+  BUN_VERSION = "1.2.0"
